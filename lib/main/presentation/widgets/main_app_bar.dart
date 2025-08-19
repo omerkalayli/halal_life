@@ -8,6 +8,7 @@ class MainAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.1,
       padding: mainAppBarPadding.copyWith(
         top: MediaQuery.of(context).padding.top,
       ),

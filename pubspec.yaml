@@ -1,21 +1,45 @@
 name: halal_life
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ^3.7.2
+  sdk: ">=3.8.0 <4.0.0"
 
 dependencies:
+  cloudflare_r2: ^0.0.14
+  csv: ^6.0.0
   flutter:
     sdk: flutter
+  flutter_cache_manager: ^3.4.1
+  flutter_dotenv: ^5.2.1
+  flutter_hooks: ^0.21.2
+  flutter_map: ^8.2.1
+  flutter_popup: ^3.3.9
+  freezed: ^3.0.0
+  freezed_annotation: ^3.1.0
   gap: ^3.0.1
+  geocoding: ^4.0.0
+  geolocator: ^14.0.2
+  hooks_riverpod: ^2.6.1
+  http: ^1.5.0
+  json_annotation: ^4.9.0
+  latlong2: ^0.9.1
+  path_provider: ^2.1.5
+  riverpod_annotation: ^2.6.1
+  skeletonizer: ^2.1.0+1
+  sqflite: ^2.4.2
   supabase_flutter: ^2.9.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: ^2.4.11
+  json_serializable: ^6.9.5
+  riverpod_generator: ^2.6.5
 
 flutter:
   uses-material-design: true
+  assets:
+    - .env

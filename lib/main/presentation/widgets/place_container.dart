@@ -1,18 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:halal_life/constants.dart';
-import 'package:halal_life/main/presentation/models/place.dart';
+
+import 'package:halal_life/main/presentation/models/place_view_model.dart';
+import 'package:halal_life/main/presentation/widgets/cloudflare_image.dart';
 import 'package:halal_life/main/presentation/widgets/rating_stars.dart';
 
 class PlaceContainer extends StatelessWidget {
-  final Place place;
+  final PlaceViewModel place;
 
   const PlaceContainer({required this.place, super.key});
 
   @override
   Widget build(BuildContext context) {
+    String typeName = "";
+    String type = place.types[0].split(",")[0].replaceAll("[", "");
+    if (type == "restaurant") {
+      typeName = "Restaurant";
+    } else if (type == "cafe") {
+      typeName = "Cafe";
+    } else if (type == "store" ||
+        type == "supermarket" ||
+        type == "grocery_or_supermarket") {
+      typeName = "Store";
+    } else if (type == "bakery") {
+      typeName = "Bakery";
+    } else {
+      typeName = "Food Spot";
+    }
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -23,13 +41,15 @@ class PlaceContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              place.image,
-              height: 90, // TODO: make this responsive.
-              width: 90,
-              fit: BoxFit.cover,
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.15,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: CloudFlareDiskCachedImage(
+                placeId: place.placeId,
+                photoReference: place.photoReference,
+                type: place.types[0].split(",")[0].replaceAll("[", ""),
+              ),
             ),
           ),
           Gap(16),
@@ -39,16 +59,18 @@ class PlaceContainer extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      place.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: darkMint,
+                    Expanded(
+                      child: Text(
+                        place.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: darkMint,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    Spacer(),
                     Icon(
                       place.isLiked
                           ? Icons.favorite_rounded
@@ -58,7 +80,7 @@ class PlaceContainer extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "${place.cuisine} • ${place.type} • ${place.distance.toString()} km",
+                  "$typeName • ${(place.distance / 1000).toStringAsFixed(1).toString()} km",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -75,10 +97,9 @@ class PlaceContainer extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(99),
-                        color:
-                            place.isOpen
-                                ? Colors.greenAccent.shade100
-                                : Colors.redAccent.shade100,
+                        color: place.isOpen
+                            ? const Color.fromARGB(255, 201, 251, 215)
+                            : Colors.red[100],
                       ),
                       child: Center(
                         child: Text(
@@ -91,13 +112,6 @@ class PlaceContainer extends StatelessWidget {
                       ),
                     ),
                     Gap(4),
-                    Text(
-                      "${place.closeTime.hour.toString().padLeft(2, '0')}:${place.closeTime.minute.toString().padLeft(2, '0')}'e kadar",
-                      style: TextStyle(
-                        color: mint,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
                     Spacer(),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),

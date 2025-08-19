@@ -107,3 +107,5 @@ const List<Cuisine> worldCuisines = [
   Cuisine(flag: "🇩🇪", name: "Alman", id: "german"),
   Cuisine(flag: "🇬🇪", name: "Gürcü", id: "georgian"),
 ];
+
+const Color appBackgroundColor = Color(0xFFFAFAF7);
